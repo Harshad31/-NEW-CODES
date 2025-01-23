@@ -1,0 +1,55 @@
+#include <LiquidCrystal.h>
+
+// LCD Pin Mapping for ESP32
+const int RS = 15;
+const int EN = 4;
+const int D4 = 16;
+const int D5 = 17;
+const int D6 = 18;
+const int D7 = 19;
+LiquidCrystal lcd(RS, EN, D4, D5, D6, D7);
+
+// ADC Pin for Buttons
+const int BUTTON_PIN = 34;
+
+// Button Thresholds (adjust based on your voltage readings)
+const int NO_BUTTON = 4095; // No button pressed
+const int RIGHT_BUTTON = 2000; // Example value
+const int UP_BUTTON = 1500; // Example value
+const int DOWN_BUTTON = 1000; // Example value
+const int LEFT_BUTTON = 500; // Example value
+const int SELECT_BUTTON = 100; // Example value
+
+void setup() {
+  lcd.begin(16, 2);
+  lcd.print("ESP32 LCD Shield");
+  delay(2000);
+  lcd.clear();
+}
+
+void loop() {
+  int adcValue = analogRead(BUTTON_PIN);
+
+  // Check button press based on thresholds
+  if (adcValue < SELECT_BUTTON) {
+    lcd.setCursor(0, 0);
+    lcd.print("SELECT Pressed ");
+  } else if (adcValue < LEFT_BUTTON) {
+    lcd.setCursor(0, 0);
+    lcd.print("LEFT Pressed   ");
+  } else if (adcValue < DOWN_BUTTON) {
+    lcd.setCursor(0, 0);
+    lcd.print("DOWN Pressed   ");
+  } else if (adcValue < UP_BUTTON) {
+    lcd.setCursor(0, 0);
+    lcd.print("UP Pressed     ");
+  } else if (adcValue < RIGHT_BUTTON) {
+    lcd.setCursor(0, 0);
+    lcd.print("RIGHT Pressed  ");
+  } else {
+    lcd.setCursor(0, 0);
+    lcd.print("No Button      ");
+  }
+
+  delay(200);
+}
